@@ -5,7 +5,7 @@ const OnboardingScreen = () => {
   return (
     <LinearGradient colors={["#e7e9ec", "#cfd4df"]} style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <View style={styles.container}>
-        <Text style={styles.title}>OnboardingScreen</Text>
+        <Text className="text-3xl text-red-500">OnboardingScreen</Text>
       </View>
     </LinearGradient>
   );
