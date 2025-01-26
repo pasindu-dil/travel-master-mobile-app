@@ -38,8 +38,8 @@ const OnboardingScreen = () => {
             </Text>
           </View>
           <View className="items-center">
-            <Text className="text-3xl text-slate-100 font-bold">Explore</Text>
-            <TouchableOpacity onPress={() => router.push("/(tabs)")}>
+            <Text className="text-3xl text-green-600 font-bold">Explore</Text>
+            <TouchableOpacity onPress={() => router.push("/(tabs)/explore")}>
               <Image
                 source={require("../assets/images/gif/explore2.gif")}
                 className="w-24 h-24"
@@ -47,7 +47,7 @@ const OnboardingScreen = () => {
             </TouchableOpacity>
           </View>
           <View className="items-center">
-            <Button name="Sign In" onPress={() => router.push("/sign-in")} />
+            <Button name="Sign In" onPress={() => router.push("/(routes)/sign-in")} />
             <SocialMediaSignUp
               handleApplePress={() => {}}
               handleGooglePress={() => {}}

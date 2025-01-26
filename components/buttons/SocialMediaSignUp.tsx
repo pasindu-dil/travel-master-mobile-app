@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import Apple from "./social-media-buttons/Apple";
 import Google from "./social-media-buttons/Google";
 import Facebook from "./social-media-buttons/Facebook";
@@ -15,8 +15,8 @@ const SocialMediaSignUp = ({
   handleFacebookPress,
 }: Props) => {
   return (
-    <View className="flex flex-row gap-10 m-4 z-50">
-      <TouchableOpacity className="mr-2">
+    <View className="flex flex-row gap-8 m-4 z-50">
+      <TouchableOpacity>
         <Apple onPress={handleApplePress} />
       </TouchableOpacity>
       <TouchableOpacity>
