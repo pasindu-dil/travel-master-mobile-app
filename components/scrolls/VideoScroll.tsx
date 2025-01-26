@@ -1,4 +1,5 @@
 import useThemeStyles from "@/hooks/useThemeStyles";
+import { Ionicons } from "@expo/vector-icons";
 import { useRoute } from "@react-navigation/native";
 import { ResizeMode, Video } from "expo-av";
 import { useEffect, useRef, useState } from "react";
@@ -7,6 +8,8 @@ import {
   FlatList,
   Dimensions,
   TouchableWithoutFeedback,
+  Text,
+  TouchableOpacity,
 } from "react-native";
 
 type Props = {
@@ -101,17 +104,24 @@ const VideoScroll = ({ videos }: Props) => {
   };
 
   return (
-    <FlatList
-      data={videos}
-      keyExtractor={(item) => item.id}
-      renderItem={renderItem}
-      pagingEnabled
-      horizontal={false}
-      showsVerticalScrollIndicator={false}
-      onViewableItemsChanged={handleViewableItemsChanged}
-      viewabilityConfig={visibilityConfig}
-      ref={flatListRef}
-    />
+    <>
+      <View className="flex-row items-center justify-between absolute z-50 mt-8 ml-2">
+        <TouchableOpacity className="ml-4 p-2">
+          <Ionicons name="search" size={32} color="#be9e9e" />
+        </TouchableOpacity>
+      </View>
+      <FlatList
+        data={videos}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+        pagingEnabled
+        horizontal={false}
+        showsVerticalScrollIndicator={false}
+        onViewableItemsChanged={handleViewableItemsChanged}
+        viewabilityConfig={visibilityConfig}
+        ref={flatListRef}
+      />
+    </>
   );
 };
 

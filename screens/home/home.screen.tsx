@@ -8,22 +8,32 @@ const video = [
   {
     id: "1",
     title: "Beach Waves",
-    uri: require("../../assets/videos/video.mp4"),
+    uri: require("../../assets/videos/tiktok1.mp4"),
   },
   {
     id: "2",
     title: "Mountain Views",
-    uri: require("../../assets/videos/video2.mov"),
+    uri: require("../../assets/videos/tiktok2.mp4"),
   },
   {
     id: "3",
     title: "City Lights",
-    uri: require("../../assets/videos/video3.mp4"),
+    uri: require("../../assets/videos/tiktok3.mp4"),
   },
   {
     id: "4",
     title: "City Lights",
-    uri: require("../../assets/videos/video3.mp4"),
+    uri: require("../../assets/videos/tiktok4.mp4"),
+  },
+  {
+    id: "5",
+    title: "City Lights",
+    uri: require("../../assets/videos/Download.mp4"),
+  },
+  {
+    id: "6",
+    title: "City Lights",
+    uri: require("../../assets/videos/Download (1).mp4"),
   },
 ];
 

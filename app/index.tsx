@@ -1,14 +1,16 @@
+import OnboardingScreen from "@/screens/onboarding.screen";
 import { Redirect } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 
 const Index = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   return (
     <>
       <StatusBar style="dark" />
-      <Redirect href={isLoggedIn ? "/(tabs)/" : "/onboarding"} />
+      <OnboardingScreen/>
+      {/* <Redirect href={isLoggedIn ? "/(tabs)/" : "/onboarding"} /> */}
     </>
   );
 };
