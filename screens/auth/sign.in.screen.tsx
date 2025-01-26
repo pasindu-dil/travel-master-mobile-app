@@ -14,7 +14,7 @@ import {
 const SignInScreen = () => {
   const { text } = useThemeStyles();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-
+  
   return (
     <ScrollView
       contentContainerStyle={{

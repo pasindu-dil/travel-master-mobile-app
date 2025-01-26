@@ -95,11 +95,12 @@ const SignUpScreen = () => {
           </View>
         </View>
         <View className="items-center w-full">
-          <View className="items-center relative">
-            <View className="absolute border-b-8 border-green-700 w-full" ></View>
+          <View className="flex-row items-center gap-4">
+            <View className="border-b-2 border-green-700 w-[30%]" ></View>
             <Text className={`${text} text-lg font-bold}`}>
               Or continue with
             </Text>
+            <View className="border-b-2 border-green-700 w-[30%]" ></View>
           </View>
           <SocialMediaSignUp
             handleApplePress={() => {}}
