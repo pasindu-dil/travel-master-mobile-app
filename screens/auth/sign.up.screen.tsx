@@ -1,4 +1,5 @@
 import Button from "@/components/buttons/Button";
+import SocialMediaSignUp from "@/components/buttons/SocialMediaSignUp";
 import useThemeStyles from "@/hooks/useThemeStyles";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -6,12 +7,12 @@ import { useState } from "react";
 import {
   View,
   Text,
+  ScrollView,
   TouchableOpacity,
   TextInput,
-  ScrollView,
 } from "react-native";
 
-const SignInScreen = () => {
+const SignUpScreen = () => {
   const { text } = useThemeStyles();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -28,10 +29,27 @@ const SignInScreen = () => {
           </TouchableOpacity>
         </View>
         <View className="items-center">
+          <Text className="text-5xl font-bold text-green-700 my-5">
+            Register
+          </Text>
           <Text className={`${text} text-2xl font-bold`}>
             Sign into your account
           </Text>
           <View className="w-full align-middle mt-14 gap-4">
+            <View>
+              <TextInput
+                placeholder="Username"
+                placeholderTextColor={"#f7f0f0"}
+                keyboardType="default"
+                className={`${text} text-lg bg-slate-800 rounded-lg p-5 pl-12`}
+              />
+              <Ionicons
+                name="person"
+                size={24}
+                color={"green"}
+                className="absolute top-[30%] left-2"
+              />
+            </View>
             <View>
               <TextInput
                 placeholder="Email"
@@ -71,23 +89,29 @@ const SignInScreen = () => {
                 )}
               </TouchableOpacity>
             </View>
-            <View>
-              <TouchableOpacity>
-                <Text className="text-green-700 text-lg font-bold">
-                  Forgot Password?
-                </Text>
-              </TouchableOpacity>
+            <View className="items-center w-full">
+              <Button name="Sign Up" onPress={() => router.push("/(tabs)")} />
             </View>
           </View>
         </View>
         <View className="items-center w-full">
-          <Button name="Sign In" onPress={() => router.push("/(tabs)")} />
+          <View className="items-center relative">
+            <View className="absolute border-b-8 border-green-700 w-full" ></View>
+            <Text className={`${text} text-lg font-bold}`}>
+              Or continue with
+            </Text>
+          </View>
+          <SocialMediaSignUp
+            handleApplePress={() => {}}
+            handleGooglePress={() => {}}
+            handleFacebookPress={() => {}}
+          />
           <View className="flex-row items-center mt-4 mb-2">
-            <Text className={`${text} text-lg`}>Don't have an account?</Text>
-            <TouchableOpacity onPress={() => router.push("/sign-up")}>
+            <Text className={`${text} text-lg`}>Already have an account?</Text>
+            <TouchableOpacity onPress={() => router.push("/sign-in")}>
               <Text className={`text-green-700 text-lg font-bold`}>
                 {" "}
-                Sign Up
+                Sign In
               </Text>
             </TouchableOpacity>
           </View>
@@ -97,4 +121,4 @@ const SignInScreen = () => {
   );
 };
 
-export default SignInScreen;
+export default SignUpScreen;

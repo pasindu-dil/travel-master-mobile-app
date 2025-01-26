@@ -7,7 +7,7 @@ type Props = {
 
 const Apple = ({ onPress }: Props) => {
   return (
-    <TouchableOpacity onPress={onPress} className="items-center bg-white rounded-full p-5">
+    <TouchableOpacity onPress={onPress} className="items-center bg-white rounded-full p-4">
       <FontAwesome name="apple" size={24} color={"green"} />
     </TouchableOpacity>
   );
