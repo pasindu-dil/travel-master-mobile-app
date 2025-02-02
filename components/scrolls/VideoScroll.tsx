@@ -98,30 +98,37 @@ const VideoScroll = ({ videos }: Props) => {
               }}
             />
           </TouchableWithoutFeedback>
+          <View className="absolute bottom-2 m-2 w-full">
+            <View className="relative flex-row items-end justify-between">
+              <View className="w-[60%]">
+                <Text className={`${text} text-2xl`}>{item.user}</Text>
+                <Text className={`${text} text-xl`}>{item.title}</Text>
+                <Text className={`${text} text-base`}>{item.description}</Text>
+              </View>
+              <View className="mr-4">
+                <TouchableOpacity className="items-center p-3 bg-green-700 rounded-full">
+                  <Ionicons name="person" size={32} color="#d6c9c9" />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
         </View>
       </View>
     );
   };
 
   return (
-    <>
-      <View className="flex-row items-center justify-between absolute z-50 mt-8 ml-2">
-        <TouchableOpacity className="ml-4 p-2">
-          <Ionicons name="search" size={32} color="#be9e9e" />
-        </TouchableOpacity>
-      </View>
-      <FlatList
-        data={videos}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-        pagingEnabled
-        horizontal={false}
-        showsVerticalScrollIndicator={false}
-        onViewableItemsChanged={handleViewableItemsChanged}
-        viewabilityConfig={visibilityConfig}
-        ref={flatListRef}
-      />
-    </>
+    <FlatList
+      data={videos}
+      keyExtractor={(item) => item.id}
+      renderItem={renderItem}
+      pagingEnabled
+      horizontal={false}
+      showsVerticalScrollIndicator={false}
+      onViewableItemsChanged={handleViewableItemsChanged}
+      viewabilityConfig={visibilityConfig}
+      ref={flatListRef}
+    />
   );
 };
 
