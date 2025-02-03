@@ -101,9 +101,9 @@ const VideoScroll = ({ videos }: Props) => {
           <View className="absolute bottom-2 m-2 w-full">
             <View className="relative flex-row items-end justify-between">
               <View className="w-[60%]">
-                <Text className={`${text} text-2xl`}>{item.user}</Text>
-                <Text className={`${text} text-xl`}>{item.title}</Text>
-                <Text className={`${text} text-base`}>{item.description}</Text>
+                <Text className={`text-slate-50 text-2xl`}>{item.user}</Text>
+                <Text className={`text-slate-50 text-xl`}>{item.title}</Text>
+                <Text className={`text-slate-50 text-base`}>{item.description}</Text>
               </View>
               <View className="mr-4">
                 <TouchableOpacity className="items-center p-3 bg-green-700 rounded-full">

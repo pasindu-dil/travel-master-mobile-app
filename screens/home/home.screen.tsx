@@ -57,7 +57,7 @@ const HomeScreen = (props: Props) => {
   const { text } = useThemeStyles();
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={{ flex: 1}}>
       <VideoScroll videos={video} />
     </GestureHandlerRootView>
   );
