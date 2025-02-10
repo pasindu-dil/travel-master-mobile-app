@@ -1,20 +1,37 @@
-import LabelButton from "@/components/buttons/LabelButton";
-import useThemeStyles from "@/hooks/useThemeStyles";
-import { Ionicons } from "@expo/vector-icons";
+import ExploreListHeader from "@/components/headers/ExploreListHeader";
+import ExploreItems from "@/components/scrolls/ExploreItems";
 import { useCallback, useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-  Image,
-  RefreshControl,
-} from "react-native";
+import { RefreshControl, FlatList } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+
+const data = [
+  {
+    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
+    title: "First Item",
+    imageUrl: require("../../assets/images/places/china_wall_ssk500.jpeg"),
+    name: "Dilshan Chathuranga"
+  },
+  {
+    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
+    title: "Second Item",
+    imageUrl: require("../../assets/images/places/Most-Beautiful-Places-in-the-World-750x430.jpg"),
+    name: "Dilshan Chathuranga"
+  },
+  {
+    id: "58694a0f-3da1-471f-bd96-145571e29d72",
+    title: "Third Item",
+    imageUrl: require("../../assets/images/places/top-places-to-visit-in-the-world-london-england.jpg"),
+    name: "Dilshan Chathuranga"
+  },
+  {
+    id: "58694a0f-3da1-471f-bd96-145571e29d73",
+    title: "Third Item",
+    imageUrl: require("../../assets/images/places/bora-bora-gettyimages-575766591.avif"),
+    name: "Dilshan Chathuranga"
+  },
+];
 
 const ExploreScreen = () => {
-  const { text, background } = useThemeStyles();
-  const [liked, setLiked] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = useCallback(() => {
@@ -25,218 +42,20 @@ const ExploreScreen = () => {
   }, []);
 
   return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
-      <View className="flex-1 justify-start mx-4 mt-12">
-        <View className="flex flex-row justify-between">
-          <Text className={`${text}`}>Explore</Text>
-          <View>
-            <Text className={`${text}`}>Explore</Text>
-          </View>
-        </View>
-        <View className="my-2">
-          <TextInput
-            placeholder="Search"
-            className={`${text} p-5 pl-11 text-start bg-slate-50 dark:bg-slate-800 border-slate-400 dark:border-white border-2 rounded-full`}
-          />
-          <Ionicons
-            name="search"
-            size={24}
-            color="#9b8181"
-            className="absolute top-4 pl-3"
-          />
-        </View>
-        <View>
-          <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-            <View className="mt-4 flex-row justify-between gap-2">
-              <LabelButton name="Location" handleClick={() => {}} />
-              <LabelButton name="Hotels" handleClick={() => {}} />
-              <LabelButton name="Food" handleClick={() => {}} />
-              <LabelButton name="Adventure" handleClick={() => {}} />
-              <LabelButton name="Adventure" handleClick={() => {}} />
-            </View>
-          </ScrollView>
-        </View>
-        <View className="mt-4">
-          <ScrollView
-            showsHorizontalScrollIndicator={false}
-            horizontal={true}
-            alwaysBounceHorizontal={true}
-          >
-            <View className="flex-row gap-4">
-              <View className="rounded-3xl inset-shadow-xl">
-                <Image
-                  source={require("../../assets/images/places/anuradapura.jpg")}
-                  className="w-80 h-[400px] rounded-3xl"
-                />
-                <TouchableOpacity
-                  className={`absolute top-4 right-4 rounded-full p-2 ${
-                    liked ? `bg-slate-200` : `bg-gray-600`
-                  } `}
-                  onPress={() => setLiked(!liked)}
-                >
-                  <Ionicons
-                    name={liked ? "heart" : "heart-outline"}
-                    color={liked ? "green" : "white"}
-                    size={28}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity className="absolute bottom-4 left-4 bg-gray-800 opacity-80 rounded-2xl p-4">
-                  <View className="relative items-start">
-                    <View className="flex-row items-center mb-2">
-                      <Text className={`text-slate-200 text-lg font-bold`}>
-                        Ruwanweliseya,
-                      </Text>
-                      <Text className="text-slate-200 text-base">
-                        Sri Lanka
-                      </Text>
-                    </View>
-                    <View className="flex-row items-center -ml-1">
-                      <Ionicons name="location" size={24} color={"white"} />
-                      <Text className="text-slate-200 text-sm">
-                        Anuradhapura, Sri Lanka
-                      </Text>
-                      <View className="p-2 bg-slate-900 rounded-full ml-4">
-                        <Text className="text-slate-200">4.8</Text>
-                      </View>
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              </View>
-              <View className="rounded-3xl inset-shadow-xl">
-                <Image
-                  source={require("../../assets/images/places/images.jpeg")}
-                  className="w-80 h-[400px] rounded-3xl"
-                />
-                <TouchableOpacity
-                  className={`absolute top-4 right-4 rounded-full p-2 ${
-                    liked ? `bg-slate-200` : `bg-gray-600`
-                  } `}
-                  onPress={() => setLiked(!liked)}
-                >
-                  <Ionicons
-                    name={liked ? "heart" : "heart-outline"}
-                    color={liked ? "green" : "white"}
-                    size={28}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity className="absolute bottom-4 left-4 bg-gray-800 opacity-80 rounded-2xl p-4">
-                  <View className="relative items-start">
-                    <View className="flex-row items-center mb-2">
-                      <Text className={`text-slate-200 text-lg font-bold`}>
-                        Ruwanweliseya,
-                      </Text>
-                      <Text className="text-slate-200 text-base">
-                        Sri Lanka
-                      </Text>
-                    </View>
-                    <View className="flex-row items-center -ml-1">
-                      <Ionicons name="location" size={24} color={"white"} />
-                      <Text className="text-slate-200 text-sm">
-                        Anuradhapura, Sri Lanka
-                      </Text>
-                      <View className="p-2 bg-slate-900 rounded-full ml-4">
-                        <Text className="text-slate-200">4.8</Text>
-                      </View>
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              </View>
-              <View className="rounded-3xl inset-shadow-xl">
-                <Image
-                  source={require("../../assets/images/places/test.webp")}
-                  className="w-80 h-[400px] rounded-3xl"
-                />
-                <TouchableOpacity
-                  className={`absolute top-4 right-4 rounded-full p-2 ${
-                    liked ? `bg-slate-200` : `bg-gray-600`
-                  } `}
-                  onPress={() => setLiked(!liked)}
-                >
-                  <Ionicons
-                    name={liked ? "heart" : "heart-outline"}
-                    color={liked ? "green" : "white"}
-                    size={28}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity className="absolute bottom-4 left-4 bg-gray-800 opacity-80 rounded-2xl p-4">
-                  <View className="relative items-start">
-                    <View className="flex-row items-center mb-2">
-                      <Text className={`text-slate-200 text-lg font-bold`}>
-                        Ruwanweliseya,
-                      </Text>
-                      <Text className="text-slate-200 text-base">
-                        Sri Lanka
-                      </Text>
-                    </View>
-                    <View className="flex-row items-center -ml-1">
-                      <Ionicons name="location" size={24} color={"white"} />
-                      <Text className="text-slate-200 text-sm">
-                        Anuradhapura, Sri Lanka
-                      </Text>
-                      <View className="p-2 bg-slate-900 rounded-full ml-4">
-                        <Text className="text-slate-200">4.8</Text>
-                      </View>
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              </View>
-              <View className="rounded-3xl inset-shadow-xl">
-                <Image
-                  source={require("../../assets/images/places/images (1).jpeg")}
-                  className="w-80 h-[400px] rounded-3xl"
-                />
-                <TouchableOpacity
-                  className={`absolute top-4 right-4 rounded-full p-2 ${
-                    liked ? `bg-slate-200` : `bg-gray-600`
-                  } `}
-                  onPress={() => setLiked(!liked)}
-                >
-                  <Ionicons
-                    name={liked ? "heart" : "heart-outline"}
-                    color={liked ? "green" : "white"}
-                    size={28}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity className="absolute bottom-4 left-4 bg-gray-800 opacity-80 rounded-2xl p-4">
-                  <View className="relative items-start">
-                    <View className="flex-row items-center mb-2">
-                      <Text className={`text-slate-200 text-lg font-bold`}>
-                        Ruwanweliseya,
-                      </Text>
-                      <Text className="text-slate-200 text-base">
-                        Sri Lanka
-                      </Text>
-                    </View>
-                    <View className="flex-row items-center -ml-1">
-                      <Ionicons name="location" size={24} color={"white"} />
-                      <Text className="text-slate-200 text-sm">
-                        Anuradhapura, Sri Lanka
-                      </Text>
-                      <View className="p-2 bg-slate-900 rounded-full ml-4">
-                        <Text className="text-slate-200">4.8</Text>
-                      </View>
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </ScrollView>
-        </View>
-        <View className="w-full h-full">
-            <View>
-              <Text>Test</Text>
-              <Image
-                  source={require("../../assets/images/places/images (1).jpeg")}
-                  className="w-full h-full rounded-3xl"
-                />
-            </View>
-        </View>
-      </View>
-    </ScrollView>
+    <SafeAreaProvider>
+      <SafeAreaView className="flex-1 justify-center mx-2">
+        <FlatList
+          data={data}
+          renderItem={({ item }) => <ExploreItems item={item} />}
+          keyExtractor={(item) => item.id.toString()}
+          ListHeaderComponent={<ExploreListHeader />}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          showsVerticalScrollIndicator={false}
+        />
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
 
