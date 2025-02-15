@@ -7,15 +7,8 @@ import useThemeStyles from "@/hooks/useThemeStyles";
 type Props = {};
 
 const ExploreListHeader = (props: Props) => {
-  const {text} = useThemeStyles();
   return (
     <>
-      <View className="flex flex-row justify-between">
-        <Text className={`${text}`}>Explore</Text>
-        <View>
-          <Text className={`${text}`}>Explore</Text>
-        </View>
-      </View>
       <Search />
       <ExploreTabs />
       <View className="mt-4">

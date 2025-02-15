@@ -20,12 +20,12 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="explore/index"
+        name="friends/index"
         options={{
-          title: "Explore",
+          title: "Friends",
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name={focused ? "search" : "search-outline"}
+              name={focused ? "people" : "people-outline"}
               size={24}
               color={color}
             />
@@ -56,12 +56,12 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="places/index"
+        name="inbox/index"
         options={{
-          title: "Places",
+          title: "Inbox",
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name={focused ? "location" : "location-outline"}
+              name={focused ? "chatbox-ellipses" : "chatbox-ellipses-outline"}
               size={24}
               color={color}
             />

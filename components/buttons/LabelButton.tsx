@@ -1,4 +1,3 @@
-import useThemeStyles from '@/hooks/useThemeStyles';
 import { Text, TouchableOpacity } from 'react-native'
 
 type Props = {
@@ -6,12 +5,10 @@ type Props = {
     handleClick: () => void
 }
 
-const LabelButton = ({ name, handleClick }: Props) => {
-  const { text } = useThemeStyles();
-  
+const LabelButton = ({ name, handleClick }: Props) => {  
   return (
-    <TouchableOpacity onPress={handleClick} className='dark:bg-slate-800 bg-gray-300 p-4 rounded-full'>
-      <Text className={`${text} text-base text-center`}>{name}</Text>
+    <TouchableOpacity onPress={handleClick} className='bg-green-800 p-4 rounded-full'>
+      <Text className={`text-slate-200 text-base text-center font-semibold`}>{name}</Text>
     </TouchableOpacity>
   )
 }
