@@ -1,8 +1,7 @@
 import useThemeStyles from "@/hooks/useThemeStyles";
 import { Ionicons } from "@expo/vector-icons";
-import { useRoute } from "@react-navigation/native";
 import { ResizeMode, Video } from "expo-av";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   View,
   FlatList,
@@ -10,10 +9,27 @@ import {
   TouchableWithoutFeedback,
   Text,
   TouchableOpacity,
+  Image,
 } from "react-native";
+import RenderContents from "./RenderContents";
+import { useFocusEffect } from "expo-router";
 
 type Props = {
-  videos: Array<{ id: string; title: string; url: any }>;
+  videos: Array<{
+    id: string;
+    title: string;
+    url: any;
+    type: string;
+    uri: any;
+    user: string;
+    description: string;
+    shares: string;
+    comments: string;
+    likes: string;
+  }>;
+  manageCountLikes: (id: string) => void;
+  isLiked: boolean;
+  manageSetLiked: (id: boolean) => void;
 };
 
 const { height, width } = Dimensions.get("window");
@@ -23,13 +39,12 @@ const visibilityConfig = {
   itemVisiblePercentThreshold: 50,
 };
 
-const VideoScroll = ({ videos }: Props) => {
+const VideoScroll = ({ videos, manageCountLikes, isLiked, manageSetLiked }: Props) => {
   const { text } = useThemeStyles();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [status, setStatus] = useState({});
   const flatListRef = useRef(null);
   const videoRefs = useRef([]);
-  const route = useRoute();
 
   const handleViewableItemsChanged = useRef(({ viewableItems }) => {
     if (viewableItems.length > 0) {
@@ -48,19 +63,52 @@ const VideoScroll = ({ videos }: Props) => {
     }
   };
 
-  const handleVideoPause = (currentIndex: number) => {
-    videoRefs.current.forEach((videoRef, index) => {
-      if (videoRef) {
-        if (index === currentIndex) {
-          if (status.isPlaying) {
-            videoRef.pauseAsync();
-          } else {
-            videoRef.playAsync();
+  // const handleVideoPause = (currentIndex: number) => {
+  //   videoRefs.current.forEach((videoRef, index) => {
+  //     if (videoRef) {
+  //       if (index === currentIndex) {
+  //         if (status.isPlaying) {
+  //           videoRef.pauseAsync();
+  //         } else {
+  //           videoRef.playAsync();
+  //         }
+  //       }
+  //     }
+  //   });
+  // };
+
+  const scrollToIndex = (index: number) => {
+    if (flatListRef.current) {
+      flatListRef.current.scrollToIndex({
+        index,
+        animated: true,
+      });
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      scrollToIndex(currentIndex)
+      
+      videoRefs.current.forEach((videoRef, index) => {
+        if (videoRef) {
+          if (index === currentIndex) {
+            if (!status.isPlaying) {
+              videoRef.playAsync();
+            }
           }
         }
-      }
-    });
-  };
+      });
+
+      return () => {
+        videoRefs.current.forEach((videoRef) => {
+          if (videoRef) {
+            videoRef.pauseAsync();
+          }
+        });
+      };
+    }, [])
+  );
 
   useEffect(() => {
     if (flatListRef.current) {
@@ -81,12 +129,24 @@ const VideoScroll = ({ videos }: Props) => {
         className={`justify-center items-center`}
       >
         <View className="w-full h-full">
-          <TouchableWithoutFeedback onPress={() => handleVideoPause(index)}>
+          {/* <TouchableWithoutFeedback> */}
+          {item.type === "image" ? (
+            <Image
+              // ref={(ref) => (videoRefs.current[index] = ref)}
+              source={item.uri}
+              style={{
+                width: width,
+                height: height,
+                backgroundColor: "black",
+              }}
+              resizeMode="contain"
+            />
+          ) : (
             <Video
               ref={(ref) => (videoRefs.current[index] = ref)}
               source={item.uri}
               resizeMode={ResizeMode.CONTAIN}
-              useNativeControls={false}
+              useNativeControls={true}
               isLooping
               shouldPlay={index === currentIndex}
               onPlaybackStatusUpdate={(videoStatus) =>
@@ -97,17 +157,43 @@ const VideoScroll = ({ videos }: Props) => {
                 height: height,
               }}
             />
-          </TouchableWithoutFeedback>
+          )}
+          {/* </TouchableWithoutFeedback> */}
           <View className="absolute bottom-2 m-2 w-full">
             <View className="relative flex-row items-end justify-between">
               <View className="w-[60%]">
-                <Text className={`text-slate-50 text-2xl`}>{item.user}</Text>
-                <Text className={`text-slate-50 text-xl`}>{item.title}</Text>
-                <Text className={`text-slate-50 text-base`}>{item.description}</Text>
+                <Text className={`text-white text-2xl font-bold`}>
+                  {item.user}
+                </Text>
+                <Text className={`text-white text-xl font-semibold`}>
+                  {item.title}
+                </Text>
+                <Text className={`text-white text-base font-semibold`}>
+                  {item.description}
+                </Text>
               </View>
-              <View className="mr-4">
+              <View className="mr-4 mb-2 gap-2 flex-col-reverse">
                 <TouchableOpacity className="items-center p-3 bg-green-700 rounded-full">
                   <Ionicons name="person" size={32} color="#d6c9c9" />
+                </TouchableOpacity>
+                <TouchableOpacity className="items-center">
+                  <Ionicons name={"share-social"} color={"white"} size={28} />
+                  <Text className="text-white text-base">{item.shares}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity className="items-center">
+                  <Ionicons name={"chatbox"} color={"white"} size={28} />
+                  <Text className="text-white text-base">{item.comments}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  className="items-center"
+                  onPress={() => manageCountLikes(item.id)}
+                >
+                  <Ionicons
+                    name={isLiked ? "heart" : "heart-outline"}
+                    color={isLiked ? "green" : "white"}
+                    size={28}
+                  />
+                  <Text className="text-white text-base">{item.likes}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -121,6 +207,7 @@ const VideoScroll = ({ videos }: Props) => {
     <FlatList
       data={videos}
       keyExtractor={(item) => item.id}
+      // renderItem={ () => <RenderContents items={item} isLiked={isLiked} manageCountLikes={manageCountLikes} manageSetLiked={manageSetLiked} />}
       renderItem={renderItem}
       pagingEnabled
       horizontal={false}

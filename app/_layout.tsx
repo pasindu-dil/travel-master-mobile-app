@@ -1,13 +1,15 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Slot, Stack, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import 'react-native-reanimated';
 import '../styles/global.css';
 
 import { useColorScheme } from '@/components/useColorScheme';
+import AuthContext from '@/context/AuthContext';
+import AuthProvider from './AuthProvider';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -23,10 +25,12 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const colorScheme = useColorScheme();
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
   });
+  const { isAuthenticated } = useContext(AuthContext);
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
@@ -43,20 +47,19 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <AuthProvider>
+      {isAuthenticated ? <RootLayoutNav /> : <Slot />}
+    </AuthProvider>
+  </ThemeProvider>;
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
-
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack screenOptions={{ headerShown: false }}>
+    <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
-        <Stack.Screen name="sign-in/index" />
-        <Stack.Screen name="sign-up/index" />
-        <Stack.Screen name="place/index" />
-      </Stack>
-    </ThemeProvider>
+        <Stack.Screen name="(routes)/sign-in/index" />
+        <Stack.Screen name="(routes)/sign-up/index" />
+    </Stack>
   );
 }

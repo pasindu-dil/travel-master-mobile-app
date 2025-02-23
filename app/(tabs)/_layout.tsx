@@ -1,5 +1,9 @@
+import AuthContext from "@/context/AuthContext";
+import OnboardingScreen from "@/screens/onboarding.screen";
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+import { useContext } from "react";
+import Onboarding from "../(routes)/onboarding";
 
 export default function TabLayout() {
   return (

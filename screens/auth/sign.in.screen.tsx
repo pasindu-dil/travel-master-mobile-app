@@ -1,8 +1,9 @@
 import Button from "@/components/buttons/Button";
+import AuthContext from "@/context/AuthContext";
 import useThemeStyles from "@/hooks/useThemeStyles";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useContext, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -10,11 +11,48 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
+import * as Keychain from 'react-native-keychain';
 
 const SignInScreen = () => {
   const { text } = useThemeStyles();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  
+  const [formData, setFormData] = useState({
+    username: "",
+    password: ""
+  });
+  const { setIsAuthenticated } = useContext(AuthContext);
+
+  const handleSignIn = async () => {
+    const username = formData.username;
+    const password = formData.password;
+
+    if (!username || !password) {
+      return;
+    }
+
+    try {
+      const response = await fetch("http://192.168.8.150:8000/api/token/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+      
+      const token = await response.json();
+      storeTokens(token);
+
+      if (token.access) {
+        setIsAuthenticated(true)
+        router.replace("/(tabs)");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const storeTokens = async ({access, refresh}) => {
+    await Keychain.setGenericPassword(access, refresh);
+  }
+
   return (
     <ScrollView
       contentContainerStyle={{
@@ -38,6 +76,7 @@ const SignInScreen = () => {
                 placeholderTextColor={"#f7f0f0"}
                 keyboardType="email-address"
                 className={`${text} text-lg bg-slate-800 rounded-lg p-5 pl-12`}
+                onChangeText={(text) => setFormData({ ...formData, username: text })}
               />
               <Ionicons
                 name="mail"
@@ -52,6 +91,7 @@ const SignInScreen = () => {
                 placeholderTextColor={"#f7f0f0"}
                 secureTextEntry={!isPasswordVisible}
                 className={`${text} text-lg bg-slate-800 rounded-lg p-5 pl-12`}
+                onChangeText={(text) => setFormData({ ...formData, password: text })}
               />
               <Ionicons
                 name="key"
@@ -81,7 +121,7 @@ const SignInScreen = () => {
           </View>
         </View>
         <View className="items-center w-full">
-          <Button name="Sign In" onPress={() => router.push("/(tabs)")} />
+          <Button name="Sign In" onPress={handleSignIn} />
           <View className="flex-row items-center mt-4 mb-2">
             <Text className={`${text} text-lg`}>Don't have an account?</Text>
             <TouchableOpacity onPress={() => router.push("/sign-up")}>
