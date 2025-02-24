@@ -42,8 +42,6 @@ const visibilityConfig = {
 const VideoScroll = ({ videos, manageCountLikes, isLiked, manageSetLiked }: Props) => {
   const { text } = useThemeStyles();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [status, setStatus] = useState({});
-  const flatListRef = useRef(null);
   const videoRefs = useRef([]);
 
   const handleViewableItemsChanged = useRef(({ viewableItems }) => {
@@ -53,49 +51,27 @@ const VideoScroll = ({ videos, manageCountLikes, isLiked, manageSetLiked }: Prop
   }).current;
 
   const handleVideoPress = (videoStatus: any) => {
-    setStatus(videoStatus);
-
     if (videoStatus.didJustFinish && currentIndex < videos.length - 1) {
-      flatListRef.current.scrollToIndex({
-        index: currentIndex + 1,
-        animated: true,
-      });
+      setCurrentIndex(currentIndex + 1);
     }
   };
 
-  // const handleVideoPause = (currentIndex: number) => {
-  //   videoRefs.current.forEach((videoRef, index) => {
-  //     if (videoRef) {
-  //       if (index === currentIndex) {
-  //         if (status.isPlaying) {
-  //           videoRef.pauseAsync();
-  //         } else {
-  //           videoRef.playAsync();
-  //         }
-  //       }
-  //     }
-  //   });
-  // };
-
   const scrollToIndex = (index: number) => {
-    if (flatListRef.current) {
-      flatListRef.current.scrollToIndex({
-        index,
-        animated: true,
-      });
+    if (index < videos.length) {
+      setCurrentIndex(index);
     }
   };
 
   useFocusEffect(
     useCallback(() => {
-      scrollToIndex(currentIndex)
-      
+      scrollToIndex(currentIndex);
+
       videoRefs.current.forEach((videoRef, index) => {
         if (videoRef) {
           if (index === currentIndex) {
-            if (!status.isPlaying) {
-              videoRef.playAsync();
-            }
+            videoRef.playAsync();
+          } else {
+            videoRef.pauseAsync();
           }
         }
       });
@@ -110,15 +86,6 @@ const VideoScroll = ({ videos, manageCountLikes, isLiked, manageSetLiked }: Prop
     }, [currentIndex])
   );
 
-  useEffect(() => {
-    if (flatListRef.current) {
-      flatListRef.current.scrollToIndex({
-        index: currentIndex,
-        animated: true,
-      });
-    }
-  }, [currentIndex]);
-
   const renderItem = ({ item, index }) => {
     return (
       <View
@@ -126,17 +93,15 @@ const VideoScroll = ({ videos, manageCountLikes, isLiked, manageSetLiked }: Prop
           width: width,
           height: height - TABBAR_HEIGHT,
         }}
-        className={`justify-center items-center`}
+        className="justify-center items-center"
       >
         <View className="w-full h-full">
-          {/* <TouchableWithoutFeedback> */}
           {item.type === "image" ? (
             <Image
-              // ref={(ref) => (videoRefs.current[index] = ref)}
               source={item.uri}
               style={{
-                width: width,
-                height: height,
+                width,
+                height,
                 backgroundColor: "black",
               }}
               resizeMode="contain"
@@ -146,55 +111,52 @@ const VideoScroll = ({ videos, manageCountLikes, isLiked, manageSetLiked }: Prop
               ref={(ref) => (videoRefs.current[index] = ref)}
               source={item.uri}
               resizeMode={ResizeMode.CONTAIN}
-              useNativeControls={true}
+              useNativeControls
               isLooping
               shouldPlay={index === currentIndex}
-              // onPlaybackStatusUpdate={(videoStatus) =>
-              //   handleVideoPress(videoStatus)
-              // }
               style={{
-                width: width,
-                height: height,
+                width,
+                height,
               }}
             />
           )}
-          {/* </TouchableWithoutFeedback> */}
           <View className="absolute bottom-2 m-2 w-full">
             <View className="relative flex-row items-end justify-between">
               <View className="w-[60%]">
-                <Text className={`text-white text-2xl font-bold`}>
-                  {item.user}
-                </Text>
-                <Text className={`text-white text-xl font-semibold`}>
-                  {item.title}
-                </Text>
-                <Text className={`text-white text-base font-semibold`}>
-                  {item.description}
-                </Text>
+                <Text className="text-white text-2xl font-bold">{item.user}</Text>
+                <Text className="text-white text-xl font-semibold">{item.title}</Text>
+                <Text className="text-white text-base font-semibold">{item.description}</Text>
               </View>
-              <View className="mr-4 mb-2 gap-2 flex-col-reverse">
+              <View className="mr-3 mb-2 flex-col-reverse">
                 <TouchableOpacity className="items-center p-3 bg-green-700 rounded-full">
                   <Ionicons name="person" size={32} color="#d6c9c9" />
                 </TouchableOpacity>
-                <TouchableOpacity className="items-center">
-                  <Ionicons name={"share-social"} color={"white"} size={28} />
-                  <Text className="text-white text-base">{item.shares}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity className="items-center">
-                  <Ionicons name={"chatbox"} color={"white"} size={28} />
-                  <Text className="text-white text-base">{item.comments}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  className="items-center"
-                  onPress={() => manageCountLikes(item.id)}
-                >
-                  <Ionicons
-                    name={isLiked ? "heart" : "heart-outline"}
-                    color={isLiked ? "green" : "white"}
-                    size={28}
-                  />
-                  <Text className="text-white text-base">{item.likes}</Text>
-                </TouchableOpacity>
+                {["share-social", "chatbox", "heart"].map((icon, idx) => (
+                  <TouchableOpacity
+                    key={icon}
+                    className="items-center p-2  rounded-full"
+                    onPress={icon === "heart" ? () => manageCountLikes(item.id) : undefined}
+                  >
+                    <Ionicons
+                      name={
+                        icon === "heart"
+                          ? isLiked
+                            ? "heart"
+                            : "heart-outline"
+                          : icon
+                      }
+                      color={icon === "heart" && isLiked ? "green" : "white"}
+                      size={idx === 0 ? 32 : 28}
+                    />
+                    <Text className="text-white text-base font-bold">
+                      {icon === "share-social"
+                        ? item.shares
+                        : icon === "chatbox"
+                          ? item.comments
+                          : item.likes}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
               </View>
             </View>
           </View>
@@ -206,17 +168,16 @@ const VideoScroll = ({ videos, manageCountLikes, isLiked, manageSetLiked }: Prop
   return (
     <FlatList
       data={videos}
-      keyExtractor={(item) => item.id}
-      // renderItem={ () => <RenderContents items={item} isLiked={isLiked} manageCountLikes={manageCountLikes} manageSetLiked={manageSetLiked} />}
+      keyExtractor={(item) => item.id.toString()}
       renderItem={renderItem}
       pagingEnabled
       horizontal={false}
       showsVerticalScrollIndicator={false}
       onViewableItemsChanged={handleViewableItemsChanged}
       viewabilityConfig={visibilityConfig}
-      ref={flatListRef}
     />
   );
 };
 
 export default VideoScroll;
+
