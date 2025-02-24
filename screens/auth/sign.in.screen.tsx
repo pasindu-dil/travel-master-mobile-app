@@ -31,7 +31,7 @@ const SignInScreen = () => {
     }
 
     try {
-      const response = await fetch("http://172.20.10.2:8000/api/token/", {
+      const response = await fetch("http://172.20.10.2:8000/api/v1/token/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
