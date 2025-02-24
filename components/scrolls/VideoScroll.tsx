@@ -107,7 +107,7 @@ const VideoScroll = ({ videos, manageCountLikes, isLiked, manageSetLiked }: Prop
           }
         });
       };
-    }, [])
+    }, [currentIndex])
   );
 
   useEffect(() => {
@@ -149,9 +149,9 @@ const VideoScroll = ({ videos, manageCountLikes, isLiked, manageSetLiked }: Prop
               useNativeControls={true}
               isLooping
               shouldPlay={index === currentIndex}
-              onPlaybackStatusUpdate={(videoStatus) =>
-                handleVideoPress(videoStatus)
-              }
+              // onPlaybackStatusUpdate={(videoStatus) =>
+              //   handleVideoPress(videoStatus)
+              // }
               style={{
                 width: width,
                 height: height,

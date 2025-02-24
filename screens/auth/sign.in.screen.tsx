@@ -31,13 +31,13 @@ const SignInScreen = () => {
     }
 
     try {
-      const response = await fetch("http://192.168.8.150:8000/api/token/", {
+      const response = await fetch("http://172.20.10.2:8000/api/token/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
       
-      const token = await response.json();
+      const token = await response.json();   
       storeTokens(token);
 
       if (token.access) {
