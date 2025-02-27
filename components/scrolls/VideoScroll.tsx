@@ -97,15 +97,18 @@ const VideoScroll = ({ videos, manageCountLikes, isLiked, manageSetLiked }: Prop
       >
         <View className="w-full h-full">
           {item.type === "image" ? (
-            <Image
-              source={item.uri}
-              style={{
-                width,
-                height,
-                backgroundColor: "black",
-              }}
-              resizeMode="contain"
-            />
+            <View className="items-center justify-center">
+              <Image
+                source={item.uri}
+                style={{
+                  width,
+                  height,
+                  backgroundColor: "black",
+                }}
+                resizeMode="contain"
+                className="w-full h-full"
+              />
+            </View>
           ) : (
             <Video
               ref={(ref) => (videoRefs.current[index] = ref)}

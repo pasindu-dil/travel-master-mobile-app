@@ -25,7 +25,7 @@ const video = [
       "Exploring the beautiful forests of Sri Lanka! #srilankatourism #forests #wildlife #ecotourism #sustainabletravel #naturelovers #adventuretime #travelwithme",
     user: "@dilshan",
     type: "image",
-    uri: require("../../assets/images/places/top-places-to-visit-in-the-world-london-england.jpg"),
+    uri: require("../../assets/images/places/test.webp"),
     likes: 568,
     comments: 20,
     shares: 10,

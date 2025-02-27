@@ -44,7 +44,7 @@ const FriendsScreen = () => {
   return (
     <SafeAreaProvider>
       <SafeAreaView className="flex-1 justify-center mx-2">
-        <FlatList
+        {/* <FlatList
           data={data}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => <ExploreItems item={item} />}
@@ -53,7 +53,7 @@ const FriendsScreen = () => {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
           showsVerticalScrollIndicator={false}
-        />
+        /> */}
       </SafeAreaView>
     </SafeAreaProvider>
   );
