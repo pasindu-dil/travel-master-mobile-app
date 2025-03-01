@@ -22,7 +22,7 @@ const ProfileScreen = (props: Props) => {
       <View className='top-[10%] w-full items-center'>
         <Text className='text-2xl font-semibold'>Dilshan Chathuranga</Text>
         <Button title='Edit Profile' />
-        <View className='flex-row items-center justify-between gap-2'>
+        <View className='flex-row items-center justify-between gap-10'>
           <View className='items-center mt-2'>
             <Text className='text-2xl font-bold'>125</Text>
             <Text className='text-xl font-base'>Following</Text>
@@ -36,12 +36,23 @@ const ProfileScreen = (props: Props) => {
             <Text className='text-xl font-base'>Likes</Text>
           </View>
         </View>
-        <View className='w-full'>
-          <Text className='text-2xl'>Stories</Text>
+        <View className='bg-slate-200 h-2 w-full m-2'></View>
+        <View className='w-full px-2'>
+          <View className='flex-row items-center justify-between my-2'>
+            <Text className='text-2xl font-semibold'>Stories</Text>
+            <Button title='View all' />
+          </View>
           <ScrollView horizontal={true}>
-            <View>
+            <View className='mr-1'>
               <TouchableWithoutFeedback>
-                <View className='bg-green-800 p-5 rounded-xl'>
+                <View className='bg-green-800 p-5 rounded-2xl'>
+                  <Feather name="plus" size={36} color="white" />
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+            <View className=''>
+              <TouchableWithoutFeedback>
+                <View className='bg-green-800 p-5 rounded-2xl'>
                   <Feather name="plus" size={36} color="white" />
                 </View>
               </TouchableWithoutFeedback>
