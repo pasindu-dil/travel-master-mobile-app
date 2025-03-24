@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import RenderContents from "./RenderContents";
 import { useFocusEffect } from "expo-router";
+import VideoToolbar from "../toolbar/VideoToolbar";
 
 type Props = {
   videos: Array<{
@@ -27,9 +28,6 @@ type Props = {
     comments: string;
     likes: string;
   }>;
-  manageCountLikes: (id: string) => void;
-  isLiked: boolean;
-  manageSetLiked: (id: boolean) => void;
 };
 
 const { height, width } = Dimensions.get("window");
@@ -39,7 +37,7 @@ const visibilityConfig = {
   itemVisiblePercentThreshold: 50,
 };
 
-const VideoScroll = ({ videos, manageCountLikes, isLiked, manageSetLiked }: Props) => {
+const VideoScroll = ({ videos }: Props) => {
   const { text } = useThemeStyles();
   const [currentIndex, setCurrentIndex] = useState(0);
   const videoRefs = useRef([]);
@@ -123,46 +121,7 @@ const VideoScroll = ({ videos, manageCountLikes, isLiked, manageSetLiked }: Prop
               }}
             />
           )}
-          <View className="absolute bottom-2 m-2 w-full">
-            <View className="relative flex-row items-end justify-between">
-              <View className="w-[60%]">
-                <Text className="text-white text-2xl font-bold">{item.user}</Text>
-                <Text className="text-white text-xl font-semibold">{item.title}</Text>
-                <Text className="text-white text-base font-semibold">{item.description}</Text>
-              </View>
-              <View className="mr-3 mb-2 flex-col-reverse">
-                <TouchableOpacity className="items-center p-3 bg-green-700 rounded-full">
-                  <Ionicons name="person" size={32} color="#d6c9c9" />
-                </TouchableOpacity>
-                {["share-social", "chatbox", "heart"].map((icon, idx) => (
-                  <TouchableOpacity
-                    key={icon}
-                    className="items-center p-2  rounded-full"
-                    onPress={icon === "heart" ? () => manageCountLikes(item.id) : undefined}
-                  >
-                    <Ionicons
-                      name={
-                        icon === "heart"
-                          ? isLiked
-                            ? "heart"
-                            : "heart-outline"
-                          : icon
-                      }
-                      color={icon === "heart" && isLiked ? "green" : "white"}
-                      size={idx === 0 ? 32 : 28}
-                    />
-                    <Text className="text-white text-base font-bold">
-                      {icon === "share-social"
-                        ? item.shares
-                        : icon === "chatbox"
-                          ? item.comments
-                          : item.likes}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            </View>
-          </View>
+          <VideoToolbar item={item} />
         </View>
       </View>
     );

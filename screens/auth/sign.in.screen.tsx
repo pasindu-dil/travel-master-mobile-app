@@ -23,18 +23,18 @@ const SignInScreen = () => {
   const { setIsAuthenticated } = useContext(AuthContext);
 
   const handleSignIn = async () => {
-    const username = formData.username;
+    const email = formData.username;
     const password = formData.password;
 
-    if (!username || !password) {
+    if (!email || !password) {
       return;
     }
 
     try {
-      const response = await fetch("http://172.20.10.2:8000/api/v1/token/", {
+      const response = await fetch("http://172.20.10.2:8000/api/v1/jwt/create/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
       
       const token = await response.json();   

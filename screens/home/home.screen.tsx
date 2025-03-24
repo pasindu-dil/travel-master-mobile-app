@@ -90,18 +90,11 @@ const visibilityConfig = {
 
 const HomeScreen = (props: Props) => {
   const videoList = useMemo(() => video, [video]);
-  const [liked, setLiked] = useState(false);
-
-  const incrementLikes = (id: string) => {
-    const index = videoList.findIndex((video) => video.id === id);
-    videoList[index].likes += 1;
-    setLiked(true);
-  };
 
   return (
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <VideoScroll videos={videoList} manageCountLikes={incrementLikes} isLiked={liked} manageSetLiked={setLiked} />
+        <VideoScroll videos={videoList} />
       </GestureHandlerRootView>
     </SafeAreaProvider>
   );
