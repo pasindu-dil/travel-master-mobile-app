@@ -4,6 +4,14 @@ import { AntDesign, Feather } from '@expo/vector-icons'
 
 type Props = {}
 
+const profile = {
+  name: "Dilshan Chathuranga",
+  email: "",
+  following: "1.1K",
+  followers: "3K",
+  likes: "1.3K"
+}
+
 const ProfileScreen = (props: Props) => {
   return (
     <View className='flex-1 items-center justify-start bg-white'>
@@ -20,19 +28,19 @@ const ProfileScreen = (props: Props) => {
         </TouchableWithoutFeedback>
       </View>
       <View className='top-[10%] w-full items-center'>
-        <Text className='text-2xl font-semibold'>Dilshan Chathuranga</Text>
+        <Text className='text-2xl font-semibold'>{profile.name}</Text>
         <Button title='Edit Profile' />
         <View className='flex-row items-center justify-between gap-10'>
           <View className='items-center mt-2'>
-            <Text className='text-2xl font-bold'>125</Text>
+            <Text className='text-2xl font-bold'>{profile.following}</Text>
             <Text className='text-xl font-base'>Following</Text>
           </View>
           <View className='items-center mt-2'>
-            <Text className='text-2xl font-bold'>125</Text>
+            <Text className='text-2xl font-bold'>{profile.followers}</Text>
             <Text className='text-xl font-base'>Followers</Text>
           </View>
           <View className='items-center mt-2'>
-            <Text className='text-2xl font-bold'>125</Text>
+            <Text className='text-2xl font-bold'>{profile.likes}</Text>
             <Text className='text-xl font-base'>Likes</Text>
           </View>
         </View>
